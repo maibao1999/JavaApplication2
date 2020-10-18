@@ -20,11 +20,12 @@ import java.util.ArrayList;
  */
 public class DAOloai {
     ArrayList<Loai> dsl;
+    Loai l;
   
     
     public DAOloai(){
 		dsl= new ArrayList<Loai>();	
-             
+             l=new Loai();
 		
     }
     
@@ -53,5 +54,31 @@ public class DAOloai {
 	     
 		}
 	return dsl;
+    }
+     
+      public Loai timloaitheoid(String id){
+       try{
+             String sql= "select * from loai where maloai like '"+id+"'";
+             Connection con= Database.getInstance().getConnection();
+             Statement st=con.createStatement();
+             ResultSet rs=st.executeQuery(sql);
+             
+           
+             
+             while(rs.next()) {
+                 String maloai=rs.getString(1);
+                 String tenloai=rs.getString(2);
+                
+                 
+                 l= new Loai(maloai, tenloai);
+                // dsn.add(xe);
+                 
+             }
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+       return l;
+       
+       
     }
 }

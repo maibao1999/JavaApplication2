@@ -6,7 +6,9 @@
 package Giaodien;
 
 import ConnectDB.Database;
+import DAO.DAOloai;
 import DAO.DAOtieude;
+import Entity.Loai;
 import Entity.Tieude;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class Admin extends javax.swing.JFrame {
      
      
      DAOtieude dstd=new DAOtieude();
+     DAOloai dsl=new DAOloai();
      
      
     public Admin() {
@@ -39,7 +42,7 @@ public class Admin extends javax.swing.JFrame {
         
         
         
-        
+        updatecbbloaitieude();
         updatetabledatatieude();
          
     }
@@ -101,7 +104,6 @@ public class Admin extends javax.swing.JFrame {
         txtdongia = new javax.swing.JTextField();
         jLabel96 = new javax.swing.JLabel();
         jLabel97 = new javax.swing.JLabel();
-        jLabel98 = new javax.swing.JLabel();
         cbbloai = new javax.swing.JComboBox<>();
         quanlydia = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -463,6 +465,11 @@ public class Admin extends javax.swing.JFrame {
 
         jButton15.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton15.setText("Thêm");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
         quanlytieude.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 550, 100, 40));
 
         jLabel15.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -524,12 +531,7 @@ public class Admin extends javax.swing.JFrame {
         jLabel97.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel97.setText("Loại");
 
-        jLabel98.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel98.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel98.setText("jLabel19");
-
         cbbloai.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        cbbloai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -573,9 +575,7 @@ public class Admin extends javax.swing.JFrame {
                         .addGap(18, 18, 18))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(cbbloai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(274, 274, 274)
-                        .addComponent(jLabel98, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
-                        .addGap(18, 18, 18))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -590,11 +590,10 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(txttentieude, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtsoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtsoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txttrangthai, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -608,7 +607,6 @@ public class Admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel97, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel98, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbloai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -2214,6 +2212,58 @@ public class Admin extends javax.swing.JFrame {
         trangchuyen.revalidate();
     }//GEN-LAST:event_btncapnhatthoigianthueActionPerformed
 
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        String ma = txtmatieude.getText();
+        String ten = txttentieude.getText();
+        int sl = Integer.valueOf(txtsoluong.getText());
+        String trangthai = txttrangthai.getText();
+        Double dongia = Double.valueOf(txtdongia.getText());
+        
+        String loai;
+         List<Loai> ls = dsl.doctubang();   
+        for (Loai l : ls) {
+            if (l.getTenloai().equalsIgnoreCase(cbbloai.getSelectedItem().toString())) {
+                loai = l.getMaloai();
+            }
+        }
+        
+        
+        
+      
+
+        if (!(txtmatieude.getText().equalsIgnoreCase("") || txttentieude.getText().equalsIgnoreCase("") || txtsoluong.getText().equalsIgnoreCase("") || txttrangthai.getText().equalsIgnoreCase("") || txtdongia.getText().equalsIgnoreCase(""))) {
+            if (kiemtrarangbuoctieude() == true) {
+                if (dskh.kttrung(kh.getMakh()) == false) {
+                    if (dskh.themkh(kh)) {
+                        datamodel2.addRow(new Object[]{kh.getMakh(), kh.getTenkh(), kh.getEmail(), kh.getSdt(), kh.getDiachi()});
+                        JOptionPane.showMessageDialog(this, "Thêm thành công");
+
+                        txtmakh.setText("");
+                        txtmakh.enable(true);
+                        txttenkh.setText("");
+                        txttenkh.enable(true);
+                        txtsdt.setText("");
+                        txtsdt.enable(true);
+                        txtdc.setText("");
+                        txtdc.enable(true);
+                        txtmail.setText("");
+                        txtmail.enable(true);
+
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Mã KH không được trùng");
+                }
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Không được để trống");
+        }
+    }//GEN-LAST:event_jButton15ActionPerformed
+    public boolean kiemtrarangbuoctieude(){
+        return false;
+    }
+    
+    
     public void updatetabledatatieude() {
 
         ArrayList<Tieude> list = dstd.doctubang();
@@ -2226,7 +2276,16 @@ public class Admin extends javax.swing.JFrame {
      
     }
     
-    
+     private void updatecbbloaitieude() {
+        DAOloai ds = new DAOloai();
+        List<Loai> list = ds.doctubang();
+
+        for (Loai s : list) {
+            cbbloai.addItem(ds.timloaitheoid(s.getMaloai()).getTenloai());
+
+        }
+
+    }
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -2400,7 +2459,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel95;
     private javax.swing.JLabel jLabel96;
     private javax.swing.JLabel jLabel97;
-    private javax.swing.JLabel jLabel98;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

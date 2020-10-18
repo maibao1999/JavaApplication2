@@ -101,5 +101,25 @@ public class DAOtieude {
 			}
 			return n > 0; 
     }
+      public boolean kttrung(String matieude){
+        boolean check=false;
+        try {
+            String sql="select tentieude from tieude where matieude=?";
+            Connection cnn = Database.getInstance().getConnection();
+            PreparedStatement stt = null;
+            stt= cnn.prepareStatement(sql);
+            stt.setString(1, matieude);
+            ResultSet re=stt.executeQuery();
+            if(re.next()){
+                check=true;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+ 
+       
+        return check;
+    }
     
 }
