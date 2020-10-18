@@ -10,6 +10,7 @@ import DAO.DAOTaikhoan;
 
 import Entity.Taikhoan;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -219,14 +220,14 @@ public class Dangnhap extends javax.swing.JFrame {
        }else {      
              
           DAOTaikhoan ds = new DAOTaikhoan();  
-          List<Taikhoan> listtk = ds.docTuBang();
+             ArrayList<Taikhoan> listtk = ds.docTuBang();
           
             int u = 0;
             for(int i=0;i<listtk.size();i++){
-                if(txtusername.getText().equalsIgnoreCase(listtk.get(i).getMk())){
+                if(txtusername.getText().equalsIgnoreCase(listtk.get(i).getId())){
                    u=i;
                    break;
-                }
+                } else JOptionPane.showMessageDialog(null,"Thông tin không hợp lệ","Error",2);
             }
             if(txtpass.getText().equalsIgnoreCase(listtk.get(u).getMk())){
               
